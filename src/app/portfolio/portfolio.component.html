@@ -1,0 +1,58 @@
+<div class="portfolio-layout">
+    <main>
+        <div class="notification" [ngClass]="{ 'error': notificationIsError }" *ngIf="notificationVisible">{{ notificationMessage }}</div>
+
+        <header>
+        <h1>Matthew Carlsen</h1>
+        <p>Software Developer | Full Stack</p>
+        <div id="settingsIcon" (click)="toggleDevMode()" (mouseenter)="showTooltip = true" (mouseleave)="showTooltip = false">
+            ⚙️
+            <span class="tooltip" *ngIf="showTooltip">Dev Mode</span>
+        </div>
+        </header>
+
+        <section id="projects">
+        <h2>Projects</h2>
+        <button id="addProjectBtn" (click)="openProjectModal()">
+            <i class="fas fa-plus"></i>
+        </button>
+        <div id="projectList">
+            <div class="project" *ngFor="let project of projects; let i = index">
+            <a [href]="project.link" target="_blank">{{ project.name }}</a>
+            <div class="project-actions" *ngIf="devMode">
+                <button (click)="editProject(i)">Edit</button>
+                <button (click)="deleteProject(i)">Delete</button>
+            </div>
+            </div>
+        </div>
+        </section>
+
+        <section id="contact">
+        <h2>Contact Me</h2>
+        <form (submit)="handleFormSubmit($event)">
+            <div class="form-row">
+            <input type="text" [(ngModel)]="contact.name" name="name" placeholder="Your Name" required />
+            <input type="email" [(ngModel)]="contact.email" name="email" placeholder="Your Email" required />
+            </div>
+            <textarea [(ngModel)]="contact.message" name="message" placeholder="Your Message..." required></textarea>
+            <button type="submit">Send</button>
+        </form>
+        </section>
+
+        <div id="projectModal" *ngIf="modalVisible">
+        <div id="projectModalContent">
+            <h3 id="modalTitle">{{ isEditing ? 'Edit Project' : 'Add Project' }}</h3>
+            <label for="modalProjectName">Project Name</label>
+            <input type="text" [(ngModel)]="modalProject.name" name="modalProjectName">
+            <label for="modalProjectLink">Project Link</label>
+            <input type="text" [(ngModel)]="modalProject.link" name="modalProjectLink">
+            <button style="margin: 0px 10px;" (click)="confirmAddProject()">{{ isEditing ? 'Update' : 'Confirm' }}</button>
+            <button (click)="closeProjectModal()">Cancel</button>
+        </div>
+        </div>
+    </main>
+    
+    <footer>
+    Mock Assignment Portfolio
+    </footer>
+</div>
